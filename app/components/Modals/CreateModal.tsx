@@ -47,8 +47,6 @@ const selectValues = [
   { value: "paid", label: "Paid" },
 ];
 
-
-
 const CreateModal = ({ onClose }: CreateModalProps) => {
   const { user, loading } = getUser();
   const form = useForm<FormValues>({
@@ -58,14 +56,12 @@ const CreateModal = ({ onClose }: CreateModalProps) => {
       description: "",
       imageUrl: "",
       type: "free",
-      category: '',
-      // instructorId: user?.displayName || "",
+      category: "",
       price: undefined,
     },
   });
 
   const onSubmit = async (data: FormValues) => {
-    console.log("adsaasd", user?.displayName)
     try {
       const result = await postRequest<{ courseId: string }>("/api/courses", {
         title: data.title,
@@ -78,7 +74,6 @@ const CreateModal = ({ onClose }: CreateModalProps) => {
         instructorId: user?.uid,
       });
 
-      console.log("Course created with ID:", result.courseId);
       onClose();
       form.reset();
     } catch (error) {
@@ -172,30 +167,30 @@ const CreateModal = ({ onClose }: CreateModalProps) => {
           )}
         </div>
 
-          <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Categories.map((item) => (
-                          <SelectItem key={item.value} value={item.value}>
-                            {item.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Categories.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
