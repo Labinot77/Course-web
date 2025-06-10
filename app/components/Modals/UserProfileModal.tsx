@@ -17,6 +17,7 @@ import { signOut, User } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { auth } from "@/db/firebaseClient";
+import { postRequest } from "@/app/lib/api/Post";
 
 interface CreateModalProps {
   onClose: () => void;
@@ -55,10 +56,20 @@ const UserProfileModal = ({ user, onClose }: CreateModalProps) => {
     }
   };
 
-  const onSubmit = async (data: FormValues) => {
-    // Here you can handle the form submission, e.g., update user profile
-    console.log("Form submitted:", data);
-  };
+const onSubmit = async (data: FormValues) => {
+  try {
+    await postRequest("/api/update-user", {
+      uid: user?.uid,
+      username: data.username,
+    });
+
+    // Optional: Refresh and close modal
+    router.refresh();
+    onClose();
+  } catch (error) {
+    console.error("Failed to update username:", error);
+  }
+};
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
