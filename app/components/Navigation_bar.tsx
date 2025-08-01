@@ -13,11 +13,9 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import UserProfileModal from "./Modals/UserProfileModal";
 import { DecodedIdToken } from "firebase-admin/auth";
-import { getUser } from "../hooks/getUser";
 import { useRoutes1 } from "../hooks/useRoutes";
 
 const Navigation_bar = () => {
-  const user = getUser().user;
   const [open, setOpen] = useState(false);
   // const path = usePathname();
   // const navItems = [
@@ -66,7 +64,7 @@ const Navigation_bar = () => {
             <DialogTitle>Privacy</DialogTitle>
           </DialogHeader>
 
-          <UserProfileModal user={user} onClose={() => setOpen(false)} />
+          <UserProfileModal onClose={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     </nav>

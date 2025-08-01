@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { postRequest } from "@/app/lib/api/Post";
-import { getUser } from "@/app/hooks/getUser";
 import { Categories } from "@/app/constants/filter";
 
 interface CreateModalProps {
@@ -48,7 +47,7 @@ const selectValues = [
 ];
 
 const CreateModal = ({ onClose }: CreateModalProps) => {
-  const { user, loading } = getUser();
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,8 +69,8 @@ const CreateModal = ({ onClose }: CreateModalProps) => {
         isFree: data.type === "free",
         category: data.category,
         price: data.type === "paid" ? data.price || 0 : 0,
-        instructor: user?.displayName,
-        instructorId: user?.uid,
+        // instructor: user?.displayName,
+        // instructorId: user?.uid,
       });
 
       onClose();

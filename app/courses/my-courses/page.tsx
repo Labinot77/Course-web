@@ -1,19 +1,15 @@
 import Course_filter_bar from "@/app/components/Course/Course_filter_bar";
 import Filter_list from "@/app/components/Course/FilterListForCourses";
-import { getCourses } from "@/app/lib/getCourses";
-import { getServerUser } from "@/app/lib/getServerUser";
 import Link from "next/link";
 import Image from "next/image";
-import { initFirebaseAdmin } from "@/db/firebaseAdmin";
 
 const page = async () => {
-  initFirebaseAdmin();
-  const courses = await getCourses();
-  const user = await getServerUser();
+  // const courses = await getCourses();
 
-  const myCourses = courses.filter(
-    (course) => course.instructorId === user?.uid
-  );
+  // Filter out the courses that aren't uids
+  // const myCourses = courses.filter(
+  //   (course) => course.instructorId === user?.uid
+  // );
 
   return (
     <main className="flex gap-2 h-[85vh] w-full">
@@ -21,7 +17,7 @@ const page = async () => {
         <Course_filter_bar />
 
         <div className="flex flex-wrap gap-4 p-4">
-          {myCourses.map((course) => (
+          {/* {myCourses.map((course) => (
             <Link
               href={`/courses/${course.id}`}
               key={course.id}
@@ -53,7 +49,7 @@ const page = async () => {
                 </p>
               </div>
             </Link>
-          ))}
+          ))} */}
         </div>
       </div>
     </main>

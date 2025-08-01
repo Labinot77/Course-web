@@ -1,15 +1,11 @@
-import { getCourses } from "../lib/getCourses";
 import Course_filter_bar from "../components/Course/Course_filter_bar";
 import Filter_list from "../components/Course/FilterListForCourses";
 import Link from "next/link";
 import Image from "next/image";
-import { initFirebaseAdmin } from "@/db/firebaseAdmin";
 import Course_card from "../components/Course/Course_card";
 
 const Page = async () => {
-  initFirebaseAdmin();
-  const courses = await getCourses();
-
+// Add courses from db
   return (
     <main className="flex gap-2 h-[85vh] w-full">
       <Filter_list />
@@ -17,7 +13,7 @@ const Page = async () => {
         <Course_filter_bar />
 
         <div className="max-h-[78vh] overflow-y-auto grid grid-cols-3 justify-items-center gap-2 mt-2">
-          {courses.map((course) => (
+          {/* {courses.map((course) => (
             <Course_card
               id={course.id}
               title={course.title}
@@ -27,7 +23,7 @@ const Page = async () => {
               duration={course.duration || "No duration listed"}
               price={course.price}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </main>

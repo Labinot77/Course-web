@@ -16,12 +16,11 @@ import { FaCheck } from "react-icons/fa6";
 import { signOut, User } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { auth } from "@/db/firebaseClient";
 import { postRequest } from "@/app/lib/api/Post";
 
 interface CreateModalProps {
   onClose: () => void;
-  user: User | null;
+  user?: User | null;
 }
 
 const formSchema = z.object({
@@ -43,18 +42,18 @@ const UserProfileModal = ({ user, onClose }: CreateModalProps) => {
     },
   });
 
-  const onLogout = async () => {
-    try {
-      await signOut(auth);
-      await fetch("/api/logout", { method: "POST" });
-      router.push("/auth/sign-in");
+  // const onLogout = async () => {
+  //   try {
+  //     await signOut(auth);
+  //     await fetch("/api/logout", { method: "POST" });
+  //     router.push("/auth/sign-in");
 
-      console.log("User logged out");
-      onClose();
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
+  //     console.log("User logged out");
+  //     onClose();
+  //   } catch (error) {
+  //     console.error("Logout failed:", error);
+  //   }
+  // };
 
 const onSubmit = async (data: FormValues) => {
   try {
@@ -82,9 +81,9 @@ const onSubmit = async (data: FormValues) => {
               <FormControl>
                 <div className="flex items-center justify-between gap-2">
                   <Input className="w-full" placeholder="John" {...field} />
-                  <Button onClick={() => onLogout()} variant={"destructive"}>
+                  {/* <Button onClick={() => onLogout()} variant={"destructive"}>
                     Logout
-                  </Button>
+                  </Button> */}
                 </div>
               </FormControl>
               <FormMessage />
