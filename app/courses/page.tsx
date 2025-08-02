@@ -3,8 +3,11 @@ import Filter_list from "../components/Course/FilterListForCourses";
 import Link from "next/link";
 import Image from "next/image";
 import Course_card from "../components/Course/Course_card";
+import { auth } from "@/auth";
 
 const Page = async () => {
+  const session = await auth()
+  console.log(session?.user)
 // Add courses from db
   return (
     <main className="flex gap-2 h-[85vh] w-full">
