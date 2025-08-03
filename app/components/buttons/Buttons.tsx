@@ -4,10 +4,11 @@ interface Props {
   onClick?: () => void | Promise<void>;
   isReactive?: boolean;
   size?: "default" | "sm" | "lg" | "icon";
+  type?: "button" | "submit" | "reset";
   children: React.ReactNode;
 }
 
-export const DefaultButton = ({ onClick, size = "default" ,isReactive, children }: Props) => {
+export const DefaultButton = ({ onClick, size = "default",type = "button", isReactive, children }: Props) => {
   return (
   <Button
     size={size}
