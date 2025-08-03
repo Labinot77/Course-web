@@ -19,7 +19,7 @@ export default async function Home() {
         <Button
           className="bg-white text-indigo-700 font-semibold px-6 py-3 rounded-full text-lg hover:bg-gray-100 transition"
         >
-          <Link href={"/auth/sign-in"}> 
+          <Link href={"/auth"}> 
           Get Started / Sign In
           </Link>
         </Button>

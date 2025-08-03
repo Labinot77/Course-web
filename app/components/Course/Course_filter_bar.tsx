@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import CreateModalForm from "../Modals/CreateModal";
+import { DefaultButton } from "../buttons/Buttons";
 
 export default function CourseFilterBar() {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function CourseFilterBar() {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)}>Create</Button>
+          <DefaultButton isReactive  onClick={() => setOpen(true)}>Create</DefaultButton>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[500px]">

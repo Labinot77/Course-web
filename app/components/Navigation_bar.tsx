@@ -9,20 +9,16 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import UserProfileModal from "./Modals/UserProfileModal";
-import { DecodedIdToken } from "firebase-admin/auth";
 import { useRoutes1 } from "../hooks/useRoutes";
+import { useSession } from "next-auth/react";
 
 const Navigation_bar = () => {
+  const { data: session } = useSession();
+  const user = session?.user;
+  console.log("User in Navigation Bar:", user);
   const [open, setOpen] = useState(false);
-  // const path = usePathname();
-  // const navItems = [
-  //   { name: "Explore", href: "/courses" },
-  //   { name: "Library", href: "/courses/library" },
-  //   { name: "My courses", href: "/courses/my-courses" },
-  // ];
 
   const routes = useRoutes1();
   return (
@@ -50,8 +46,8 @@ const Navigation_bar = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Image
-            className="p-1 rounded-full bg-slate-50"
-            src="/profile.png"
+            className="p-1  rounded-full bg-slate-50"
+            src={user?.image || "/profile.png"}
             alt="Profile"
             width={35}
             height={35}
