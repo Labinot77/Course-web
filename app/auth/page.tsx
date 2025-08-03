@@ -57,15 +57,16 @@ export default function LoginPage() {
 
       <Separator className="w-36" />
 
-      <form onSubmit={handleMagicLink} className="flex items-center gap-2">
+      <form onSubmit={handleMagicLink} className="flex w-max items-center gap-2">
         <Input
+          className=""
           type="email"
           placeholder="Email"
           name="email"
           ref={emailRef}
         />
         <DefaultButton type="submit" isReactive >
-          Sign in with Email
+          Sign in
         </DefaultButton>
       </form>
 

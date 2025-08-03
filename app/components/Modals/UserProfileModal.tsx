@@ -18,6 +18,8 @@ import { postRequest } from "@/app/lib/api/Post";
 import { handleSignOut } from "@/app/lib/Auth";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { DefaultButton } from "../buttons/Buttons";
 
 interface CreateModalProps {
   onClose: () => void;
@@ -51,11 +53,11 @@ const UserProfileModal = ({ onClose }: CreateModalProps) => {
 
   const onSubmit = async (data: FormValues) => {
     console.log("Form submitted with data:", data);
-  }
+  };
 
   return (
-    <main className="mr-4 flex flex-col gap-4">
-      <div className="w-2/3 h-max p-2 border-2 border-gray-500 rounded-md">
+    <main className="mr-4 flex gap-4">
+      <div className="w-2/3 h-max p-2  rounded-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -103,11 +105,25 @@ const UserProfileModal = ({ onClose }: CreateModalProps) => {
                 </FormItem>
               )}
             />
-            {/* <Button type="submit" variant={"default"}>
+            <Button type="submit" variant={"default"}>
               Submit
-            </Button> */}
+            </Button>
           </form>
         </Form>
+      </div>
+
+      <div className="flex flex-col items-center justify-center w-1/3 h-max p-2 rounded-md">
+        <Image
+          className="rounded-full"
+          alt="User Profile"
+          width={100}
+          height={100}
+          src={user?.image || "/default.png"}
+        />
+
+        <DefaultButton type="button" onClick={() => HandleSignOut()}>
+          Sign out{" "}
+        </DefaultButton>
       </div>
     </main>
     // <Form {...form}>
@@ -158,11 +174,6 @@ const UserProfileModal = ({ onClose }: CreateModalProps) => {
     //       )}
     //     />
 
-    //       <Button type="button" onClick={() => HandleSignOut()}>Sign out </Button>
-
-    //     <Button type="submit" variant={"default"}>
-    //       Submit
-    //     </Button>
     //   </form>
     // </Form>
   );

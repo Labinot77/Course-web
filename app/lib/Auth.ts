@@ -8,6 +8,7 @@ export const handleSignIn = async (provider: string, email?: string) => {
       email,
       redirectTo: "/courses",
     });
+
   } else {
     await signIn(provider, { redirectTo: "/courses" });
   }
