@@ -1,10 +1,10 @@
 "use client";
 
-import { getUser } from "@/app/hooks/getUser";
 import { postRequest } from "@/app/lib/api/Post";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { DefaultButton } from "../buttons/Buttons";
+import { useState } from "react";
 
 interface Course {
   id: string;
@@ -23,24 +23,30 @@ const Course_card = ({
   price,
   imageUrl,
 }: Course) => {
-  const user = getUser().user;
-  const saveCourse = async (
-    courseId: string,
-    courseData: Record<string, any>
-  ) => {
-    if (!user) return;
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
 
+  const saveCourse = async (e: React.MouseEvent) => {
+    e.preventDefault(); 
+    
+    setSaving(true);
     try {
-      await postRequest("/api/save-course", {
-        uid: user.uid,
-        courseId,
-        courseData,
+      await postRequest("/api/courses/user/save", {
+        courseId: id,
+        title,
+        instructor,
+        duration,
+        price,
+        imageUrl,
       });
-      console.log("Course saved!");
+      setSaved(true);
     } catch (error) {
       console.error("Error saving course:", error);
+    } finally {
+      setSaving(false);
     }
   };
+
   return (
     <Link
       href={`/courses/${id}`}
@@ -69,20 +75,9 @@ const Course_card = ({
         </p>
       </div>
 
-      <Button
-        onClick={(e) => {
-          e.preventDefault();
-          saveCourse(id, {
-            title,
-            instructor,
-            duration,
-            price,
-            imageUrl,
-          });
-        }}
-      >
-        Save Course
-      </Button>
+      <DefaultButton onClick={saveCourse} isReactive>
+        {saved ? "Saved!" : saving ? "Saving..." : "Save Course"}
+      </DefaultButton>
     </Link>
   );
 };

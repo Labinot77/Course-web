@@ -14,7 +14,7 @@ const Page = async ({ params }: PageProps) => {
 
   return (
     <>
-      {/* <Course_page data={courseData} /> */}
+      <Course_page data={courseData} />
     </>
   );
 };

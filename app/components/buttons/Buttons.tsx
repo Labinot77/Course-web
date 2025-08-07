@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 
 interface Props {
-  onClick?: () => void | Promise<void>;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
   isReactive?: boolean;
   size?: "default" | "sm" | "lg" | "icon";
   type?: "button" | "submit" | "reset";

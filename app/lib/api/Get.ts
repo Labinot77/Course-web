@@ -1,6 +1,14 @@
 export const getRequest = async <T>(url: string): Promise<T> => {
   try {
-    const response = await fetch(url, {
+    // If url starts with '/', prepend base URL for server-side fetch
+    let fullUrl = url;
+    if (url.startsWith("/")) {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL;
+      fullUrl = `${baseUrl}${url}`;
+    }
+
+    const response = await fetch(fullUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -9,7 +17,7 @@ export const getRequest = async <T>(url: string): Promise<T> => {
     });
 
     if (!response.ok) {
-      throw new Error(`GET request to ${url} failed with status ${response.status}`);
+      throw new Error(`GET request to ${fullUrl} failed with status ${response.status}`);
     }
 
     const data = await response.json();

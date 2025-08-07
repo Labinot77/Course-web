@@ -61,24 +61,22 @@ const CreateModal = ({ onClose }: CreateModalProps) => {
   });
 
   const onSubmit = async (data: FormValues) => {
-    try {
-      const result = await postRequest<{ courseId: string }>("/api/courses", {
-        title: data.title,
-        description: data.description,
-        imageUrl: data.imageUrl,
-        isFree: data.type === "free",
-        category: data.category,
-        price: data.type === "paid" ? data.price || 0 : 0,
-        // instructor: user?.displayName,
-        // instructorId: user?.uid,
-      });
+  try {
+    const result = await postRequest<{ courseId: string }>("/api/courses/create", {
+      title: data.title,
+      description: data.description,
+      imageUrl: data.imageUrl,
+      isFree: data.type === "free",
+      category: data.category,
+      price: data.type === "paid" ? data.price || 0 : 0,
+    });
 
-      onClose();
-      form.reset();
-    } catch (error) {
-      console.error("Failed to create course:", error);
-    }
-  };
+    onClose();
+    form.reset();
+  } catch (error) {
+    console.error("Failed to create course:", error);
+  }
+};
 
   return (
     <Form {...form}>

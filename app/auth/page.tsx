@@ -55,7 +55,7 @@ export default function LoginPage() {
 
       </div>
 
-      <Separator className="w-36" />
+      {/* <Separator className="w-36" />
 
       <form onSubmit={handleMagicLink} className="flex w-max items-center gap-2">
         <Input
@@ -68,7 +68,7 @@ export default function LoginPage() {
         <DefaultButton type="submit" isReactive >
           Sign in
         </DefaultButton>
-      </form>
+      </form> */}
 
       <p className="mt-24 text-sm text-gray-500">
         All account information is encrypted using AuthJS
