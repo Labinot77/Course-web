@@ -32,8 +32,6 @@ const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
   description: z.string().min(5, "Description must be at least 5 characters"),
   imageUrl: z.string().url("Must be a valid URL"),
-  // instructorId: z.string(),
-  // instructor: z.string(),
   type: z.enum(["free", "paid"]),
   category: z.string().min(1, "Category is required"),
   price: z.coerce.number().min(0, "Price must be a positive number").optional(),

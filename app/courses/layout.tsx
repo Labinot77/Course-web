@@ -3,14 +3,11 @@ import Navigation_bar from "../components/Navigation_bar";
 import Announcement_bar from "../components/Announcement_bar";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { toast } from "sonner";
-import { ToastTest } from "../hooks/dasd";
 
 const layout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
   if (!session?.user) {
-   redirect("/auth?reason=unauthenticated");
-
+    redirect("/auth?reason=unauthenticated");
   }
 
   return (

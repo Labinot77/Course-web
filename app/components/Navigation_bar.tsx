@@ -11,21 +11,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import UserProfileModal from "./Modals/UserProfileModal";
-import { useRoutes1 } from "../hooks/useRoutes";
-import { useSession } from "next-auth/react";
+import { useRoutes } from "../hooks/useRoutes";
+import { UseUser } from "../hooks/useUser";
+
 
 const Navigation_bar = () => {
-  const { data: session } = useSession();
-  const user = session?.user;
-  console.log("User in Navigation Bar:", user);
+  const { user } = UseUser();
+  const nav_routes = useRoutes();
   const [open, setOpen] = useState(false);
 
-  const routes = useRoutes1();
   return (
     <nav className="flex justify-between items-center w-full border-b mb-3">
       <ul className="flex gap-4">
-        {routes.map((item) => {
-          const isActive = item.active; // Use the active property from the route
+        {nav_routes.map((item) => {
+          const isActive = item.active;
           return (
             <li key={item.href}>
               <Link
