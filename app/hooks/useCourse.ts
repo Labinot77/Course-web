@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getRequest } from "@/app/lib/api/Get";
+import { wait } from "../constants/filter";
 
 
 export const useCourse = (apiUrl: string) => {

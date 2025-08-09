@@ -18,6 +18,7 @@ export const Duration = [
     { value: "long", label: "Long (more than 3 hours)" },
 ];  
 
-export const SkeletonCount = 6;
+export const SkeletonCount = 4;
+
 export const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

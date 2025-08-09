@@ -134,6 +134,7 @@ const UserProfileModal = ({ onClose }: CreateModalProps) => {
                       <FormControl>
                         <div className="flex items-center gap-2">
                           <Input
+                          disabled
                             className="w-full"
                             placeholder="John@joe.dho"
                             {...field}

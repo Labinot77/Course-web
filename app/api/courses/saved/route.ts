@@ -10,7 +10,19 @@ export async function GET(req: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
-    include: { savedCourses: true },
+    include: {
+      savedCourses: {
+        include: {
+          createdBy: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return NextResponse.json(user?.savedCourses ?? []);
