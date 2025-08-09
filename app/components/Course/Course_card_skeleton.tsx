@@ -7,7 +7,7 @@ const CourseGridSkeleton = () => (
     {Array.from({ length: SkeletonCount }).map((_, i) => (
       <Skeleton
         key={i}
-        className="w-96 h-64 rounded-lg bg-muted"
+        className="w-full h-64 rounded-lg bg-muted"
       />
     ))}
     </>

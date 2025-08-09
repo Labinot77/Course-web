@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma";
 import { auth } from "@/auth";
 
-export async function POST(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   try {
     const session = await auth();
 
@@ -18,18 +18,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    await prisma.user.update({
+    await prisma.user.delete({
       where: { id: user.id },
-      data: {
-        createdCourses: {
-          connect: { id: user.id },
-        },
-      },
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Failed to save course:", error);
-    return NextResponse.json({ error: "Failed to save course" }, { status: 500 });
+    console.error("Failed to delete user:", error);
+    return NextResponse.json(
+      { error: "Failed to delete user" },
+      { status: 500 }
+    );
   }
 }

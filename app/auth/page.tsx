@@ -10,7 +10,6 @@ import { useSearchParams } from "next/navigation";
 export default function LoginPage() {
   const searchParams = useSearchParams();
   const reason = searchParams.get("reason");
-  const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (reason === "unauthenticated") {
@@ -20,7 +19,8 @@ export default function LoginPage() {
   }, [reason]);
 
   return (
-    <main className="h-screen w-full flex flex-col items-center justify-center gap-4">
+    <main className="flex flex-start">
+<div className="h-screen px-32 flex flex-col items-center justify-center gap-4">
       <h1 className="text-3xl font-bold">Authentication</h1>
 
       <div className="flex gap-3">
@@ -40,6 +40,13 @@ export default function LoginPage() {
       <p className="mt-24 text-sm text-gray-500">
         All account information is encrypted using AuthJS
       </p>
+    </div>
+<div className="w-full h-screen relative overflow-hidden">
+  <div className="absolute inset-0 bg-grid-fade pointer-events-none" />
+  {/* Your content here */}
+</div>
+
     </main>
+    
   );
 }

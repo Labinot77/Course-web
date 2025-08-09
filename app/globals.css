@@ -42,6 +42,15 @@
   max-height: fit-content;
 }
 
+.bg-grid-fade {
+  background-image: 
+    linear-gradient(to left, rgba(148, 163, 184, 0.2) 1px, transparent 1px),
+    linear-gradient(to top, rgba(148, 163, 184, 0.2) 1px, transparent 1px),
+    linear-gradient(to left, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 1) 60%);
+  background-size: 32px 32px, 32px 32px, 100% 100%;
+  background-repeat: repeat, repeat, no-repeat;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

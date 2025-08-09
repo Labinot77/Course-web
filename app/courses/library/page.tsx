@@ -17,7 +17,7 @@ const Page = () => {
          <div className="w-full">
            <Course_filter_bar />
            
-           <div className="max-h-[78vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-items-center gap-2 mt-2">
+           <div className="max-h-[78vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-items-center gap-10 mt-2">
              {loading
                ? <CourseGridSkeleton />
                : courses.map((course) => (

@@ -13,6 +13,7 @@ import { useState } from "react";
 import UserProfileModal from "./Modals/UserProfileModal";
 import { useRoutes } from "../hooks/useRoutes";
 import { UseUser } from "../hooks/useUser";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 
 const Navigation_bar = () => {
@@ -54,9 +55,11 @@ const Navigation_bar = () => {
           />
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:min-h-[400px] sm:max-w-[600px]">
           <DialogHeader>
+            <VisuallyHidden>
             <DialogTitle>Privacy</DialogTitle>
+            </VisuallyHidden>
           </DialogHeader>
 
           <UserProfileModal onClose={() => setOpen(false)} />
