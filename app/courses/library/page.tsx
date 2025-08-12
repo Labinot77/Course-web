@@ -3,11 +3,11 @@
 import Course_filter_bar from "@/app/components/Course/Course_filter_bar";
 import Filter_list from "@/app/components/Course/FilterListForCourses";
 import Course_card from "@/app/components/Course/Course_card";
-import { useCourse } from "@/app/hooks/useCourse";
-import CourseGridSkeleton from "@/app/components/Course/Course_card_skeleton";
+import { useCourses } from "@/app/hooks/useCourses";
+import CourseGridSkeleton from "@/app/components/skeletons/Course_card_skeleton";
 
 const Page = () => {
-  const { courses, loading } = useCourse("/api/courses/saved");
+  const { courses, loading } = useCourses("/api/courses/saved");
 
   return (
     <main className="flex gap-2 h-[85vh] w-full">

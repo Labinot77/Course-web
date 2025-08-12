@@ -1,6 +1,15 @@
-export const postRequest = async <T>(url: string, body: Record<string, any>): Promise<T> => {
+export const postRequest = async <T>(
+  url: string,
+  body: Record<string, any>
+): Promise<T> => {
   try {
-    const response = await fetch(url, {
+    let fullUrl = url;
+    if (url.startsWith("/")) {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      fullUrl = `${baseUrl}${url}`;
+    }
+
+    const response = await fetch(fullUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -9,7 +18,9 @@ export const postRequest = async <T>(url: string, body: Record<string, any>): Pr
     });
 
     if (!response.ok) {
-      throw new Error(`POST request to ${url} failed with status ${response.status}`);
+      throw new Error(
+        `POST request to ${fullUrl} failed with status ${response.status}`
+      );
     }
 
     const data = await response.json();

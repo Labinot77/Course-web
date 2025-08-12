@@ -1,14 +1,12 @@
 import React, { ReactNode } from "react";
 import Navigation_bar from "../components/Navigation_bar";
 import Announcement_bar from "../components/Announcement_bar";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
 const layout = async ({ children }: { children: ReactNode }) => {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/auth?reason=unauthenticated");
-  }
+  // const session = await auth();
+  // if (!session?.user) {
+  //   redirect("/auth?reason=unauthenticated");
+  // }
 
   return (
     <main>

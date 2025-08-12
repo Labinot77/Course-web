@@ -18,15 +18,15 @@ interface CourseProps {
   }
 }
 
-export const useCourse = (apiUrl: string) => {
-  const [course, setCourse] = useState<CourseProps | null>(null);
+export const useCourses = (apiUrl: string) => {
+  const [courses, setCourses] = useState<CourseProps[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getRequest<any>(apiUrl);
-        setCourse(data);
+        const data = await getRequest<any[]>(apiUrl);
+        setCourses(data);
       } finally {
         setLoading(false);
       }
@@ -35,5 +35,5 @@ export const useCourse = (apiUrl: string) => {
     fetchData();
   }, [apiUrl]);
 
-  return { course, loading };
+  return { courses, loading };
 };

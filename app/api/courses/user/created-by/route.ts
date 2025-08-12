@@ -1,35 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma";
-import { auth } from "@/auth";
+import { getUserFromDB } from "@/app/lib/User";
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const session = await auth();
+    const user = await getUserFromDB();
 
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
+    if (!user.email) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    await prisma.user.update({
+    // fetch here
+    const userWithCourses = await prisma.user.findUnique({
       where: { id: user.id },
-      data: {
+      include: {
         createdCourses: {
-          connect: { id: user.id },
+          include: {
+            createdBy: true,
+            savedBy: true,
+          },
         },
       },
     });
 
-    return NextResponse.json({ success: true });
+    const courses = userWithCourses?.createdCourses || [];
+
+    return NextResponse.json(courses);
   } catch (error) {
     console.error("Failed to save course:", error);
-    return NextResponse.json({ error: "Failed to save course" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to save course" },
+      { status: 500 }
+    );
   }
 }

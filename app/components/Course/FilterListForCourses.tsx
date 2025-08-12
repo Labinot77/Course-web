@@ -27,7 +27,7 @@ const Filter_list = () => {
   const isPaidChecked = selectedPrice === "paid";
 
   return (
-    <main className="w-72 bg-primary-foreground rounded-md h-min p-4 space-y-2">
+    <main className="w-[19rem] bg-primary-foreground rounded-md h-min p-4 space-y-2">
       <div>
         <h1 className="text-lg font-semibold mb-2">Price</h1>
         {Price.map((price) => (

@@ -21,6 +21,7 @@ import { DefaultButton } from "../buttons/Buttons";
 import { Separator } from "@/components/ui/separator";
 import { UseUser } from "@/app/hooks/useUser";
 import { deleteRequest } from "@/app/lib/api/Delete";
+import { useRouter } from "next/navigation";
 
 interface CreateModalProps {
   onClose: () => void;
@@ -35,7 +36,7 @@ const handleDeleteAccount = async () => {
   try {
     await deleteRequest("/api/auth/user/delete");
 
-    await HandleSignOut()
+    await HandleSignOut();
     toast.success("Your account has been deleted successfully.");
   } catch (error) {
     console.error("Failed to delete account:", error);
@@ -54,9 +55,20 @@ type FormValues = z.infer<typeof formSchema>;
 
 const UserProfileModal = ({ onClose }: CreateModalProps) => {
   const { user } = UseUser();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"security" | "subscriptions">(
     "security"
   );
+
+  if (!user)
+    return (
+      <>
+        <p>You are not signed in</p>
+        <DefaultButton onClick={() => router.push("/auth")}>
+          Sign In
+        </DefaultButton>
+      </>
+    );
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -134,7 +146,7 @@ const UserProfileModal = ({ onClose }: CreateModalProps) => {
                       <FormControl>
                         <div className="flex items-center gap-2">
                           <Input
-                          disabled
+                            disabled
                             className="w-full"
                             placeholder="John@joe.dho"
                             {...field}
