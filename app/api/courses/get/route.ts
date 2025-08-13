@@ -10,13 +10,26 @@ export async function GET(req: NextRequest) {
             id: true,
             name: true,
             image: true,
-          }
-        }
-      }
+          },
+        },
+        episodes: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
     });
+
     return NextResponse.json(courses, { status: 200 });
   } catch (error) {
     console.error("Failed to fetch courses:", error);
-    return NextResponse.json({ error: "Failed to fetch courses" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch courses" },
+      { status: 500 }
+    );
   }
 }

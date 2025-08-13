@@ -18,6 +18,10 @@ const Page = () => {
         <div className="max-h-[78vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-items-center gap-10 mt-2">
           {loading ? (
             <CourseGridSkeleton />
+          ) : courses.length === 0 ? (
+            <div className="col-span-full text-center text-gray-500 mt-4">
+              No courses found.
+            </div>
           ) : (
             courses.map((course) => (
               <Course_card

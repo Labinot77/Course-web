@@ -3,10 +3,10 @@
 import Course_card from "@/app/components/Course/Course_card";
 import CourseGridSkeleton from "@/app/components/skeletons/Course_card_skeleton";
 import Course_filter_bar from "@/app/components/Course/Course_filter_bar";
-import { useCourse } from "@/app/hooks/useCourses";
+import { useCourses } from "@/app/hooks/useCourses";
 
 const page = () => {
-  const { courses, loading } = useCourse("/api/courses/user/created-by");
+  const { courses, loading } = useCourses("/api/courses/user/created-by");
   return (
     <main className="flex gap-2 h-[85vh] w-full">
       <div className="w-full">

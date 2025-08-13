@@ -14,6 +14,7 @@ interface Course {
   category: string;
   price?: number;
   imageUrl?: string;
+  episodes?: number;
   userData: {
     id: string;
     name: string;
@@ -27,6 +28,7 @@ const Course_card = ({
   userData,
   duration,
   category,
+  episodes,
   price,
   imageUrl,
 }: Course) => {
@@ -69,7 +71,7 @@ const Course_card = ({
           className="object-cover rounded-lg hover:shadow-lg hover:rounded-none transition-all"
         />
         <small className="absolute bottom-2 right-4">{category.toUpperCase()}</small>
-        <small className="absolute top-2 right-4 bg-black opacity-50 px-1 p-0.5">7 Episodes</small>
+        <small className="absolute top-2 right-4 bg-black opacity-50 px-1 p-0.5">{episodes} Episodes</small>
       </div>
       <div className="flex gap-3 mt-4">
         <div className="justify-start items-center">

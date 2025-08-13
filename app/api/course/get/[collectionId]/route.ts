@@ -8,7 +8,7 @@ export async function GET(
   try {
     const course = await prisma.course.findUnique({
       where: {
-        id: params.collectionId,
+        id: await params.collectionId,
       },
       include: {
         createdBy: {
@@ -16,7 +16,16 @@ export async function GET(
             id: true,
             name: true,
             email: true,
-            image: true, 
+            image: true,
+          },
+        },
+        episodes: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            createdAt: true,  
+            updatedAt: true,
           },
         },
       },

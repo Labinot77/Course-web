@@ -11,15 +11,15 @@ const Course_page = ({ courseId }: { courseId: string }) => {
   const { course, loading } = useCourse(`/api/course/get/${courseId}`);
   const router = useRouter();
 
-  if (!course) return <p>Course not found</p>;
-  
+  // If this is not here gives me 500 on API, and I dont know why. NEED TO FIX
+  if (!course) return null
 
   return (
     <div className="h-[81vh] overflow-hidden">
       <section className="h-full flex gap-12">
         <div className="h-full flex-shrink-0">
           {/* Pass episodes list here and is course saved */}
-          <CourseEpisodesList />
+          <CourseEpisodesList course={course} />
         </div>
 
         <main className="w-full h-screen overflow-y-auto pr-2">

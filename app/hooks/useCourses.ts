@@ -11,7 +11,15 @@ interface CourseProps {
   category: string;
   price: number;
   imageUrl: string;
-  createdBy: {
+  episodes: {
+    id: string;
+    title: string;
+    description: string;
+    duration: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+    createdBy: {
     id: string;
     name: string;
     image: string;
