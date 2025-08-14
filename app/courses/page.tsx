@@ -1,7 +1,7 @@
 "use client";
 
 import Course_filter_bar from "../components/Course/Course_filter_bar";
-import Filter_list from "../components/Course/FilterListForCourses";
+import Filter_list from "../components/FilterListForCourses";
 import Course_card from "../components/Course/Course_card";
 import CourseGridSkeleton from "../components/skeletons/Course_card_skeleton";
 import { useCourses } from "../hooks/useCourses";

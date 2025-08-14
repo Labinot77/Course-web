@@ -2,21 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { getRequest } from "@/app/lib/api/Get";
+import { CourseProps } from "../types/types";
 
-interface CourseProps {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  category: string;
-  price: number;
-  imageUrl: string;
-  createdBy: {
-    id: string;
-    name: string;
-    image: string;
-  }
-}
 
 export const useCourse = (apiUrl: string) => {
   const [course, setCourse] = useState<CourseProps | null>(null);

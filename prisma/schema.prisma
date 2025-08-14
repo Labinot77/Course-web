@@ -46,6 +46,7 @@ model Episode {
   description String
   videoUrl    String
   courseId    String
+  duration    Float 
   course      Course   @relation("CourseEpisodes", fields: [courseId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
