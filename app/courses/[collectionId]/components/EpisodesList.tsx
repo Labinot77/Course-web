@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { DefaultButton } from "../buttons/Buttons";
+import { DefaultButton } from "../../../components/buttons/Buttons";
 import { UseUser } from "@/app/hooks/useUser";
 import Link from "next/link";
 import { CourseProps } from "@/app/types/types";
 import { useRouter } from "next/dist/client/components/navigation";
 
-const CourseEpisodesList = ({
+const EpisodesList = ({
   course,
   onSelectEpisode,
 }: {
@@ -54,4 +54,4 @@ const CourseEpisodesList = ({
   );
 };
 
-export default CourseEpisodesList;
+export default EpisodesList;

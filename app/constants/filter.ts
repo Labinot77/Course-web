@@ -8,8 +8,8 @@ export const Categories = [
 ];
 
 export const Price = [
-    { value: "free", label: "Free" },
-    { value: "paid", label: "Paid" },
+    { value: true, label: "Free" },
+    { value: false, label: "Paid" },
 ]
 
 export const Duration = [

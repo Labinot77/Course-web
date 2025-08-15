@@ -3,31 +3,9 @@
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { handleSignIn } from "../lib/Auth";
 import { DefaultButton } from "../components/buttons/Buttons";
-import { useEffect, useRef } from "react";
-import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
-
-import { UseUser } from "../hooks/useUser";
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
-  const reason = searchParams.get("reason");
-  const router = useRouter();
-  const user = UseUser();
-
-  useEffect(() => {
-    // if (user) {
-    //   router.push("/courses");
-    //   toast.success("Welcome back!");
-    // }
-
-    if (reason === "unauthenticated") {
-      toast.error("You must be logged in to access that page.");
-      console.log("User is unauthenticated");
-    }
-
-  }, [reason, router]);
-
+  // Use card to improve the look of the auth
   return (
     <main className="flex flex-start">
       <div className="h-screen px-32 flex flex-col items-center justify-center gap-4">

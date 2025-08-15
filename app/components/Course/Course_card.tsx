@@ -99,10 +99,6 @@ const Course_card = ({
           </div>
         </div>
       </div>
-
-      {/* <DefaultButton onClick={saveCourse} isReactive>
-        {saved ? "Saved!" : saving ? "Saving..." : "Save Course"}
-      </DefaultButton> */}
     </Link>
   );
 };

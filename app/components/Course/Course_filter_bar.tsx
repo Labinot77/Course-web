@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import CreateModalForm from "../Modals/CreateModal";
 import { DefaultButton } from "../buttons/Buttons";
+import Link from "next/link";
 
 export default function CourseFilterBar() {
   const [open, setOpen] = useState(false);
@@ -24,20 +25,9 @@ export default function CourseFilterBar() {
         className="h-8 w-[16rem] px-3 rounded-md"
       />
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <DefaultButton isReactive  onClick={() => setOpen(true)}>Create</DefaultButton>
-        </DialogTrigger>
-
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>Create a new course</DialogTitle>
-          </DialogHeader>
-
-          {/* Pass the close handler */}
-          <CreateModalForm onClose={() => setOpen(false)} />
-        </DialogContent>
-      </Dialog>
+      <Link href={"/courses/create"}>
+        <DefaultButton isReactive>Create</DefaultButton>
+      </Link>
     </div>
   );
 }
