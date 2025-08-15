@@ -8,27 +8,6 @@ import Link from "next/link";
 import { CourseProps } from "@/app/types/types";
 import { useRouter } from "next/dist/client/components/navigation";
 
-// interface Course {
-//   id: string;
-//   title: string;
-//   description: string;
-//   createdBy: {
-//     id: string;
-//     name: string;
-//     email: string;
-//     image: string;
-//   };
-//   episodes: {
-//     id: string;
-//     title: string;
-//     description: string;
-//     createdBy: string;
-//     duration: string;
-//     createdAt: string;
-//     updatedAt: string;
-//   }[];
-// }
-
 const CourseEpisodesList = ({
   course,
   onSelectEpisode,

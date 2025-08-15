@@ -18,7 +18,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => {
   return {
     adapter: PrismaAdapter(prisma),
     providers: [
-      Resend({ apiKey: process.env.RESEND_API_KEY }),
       GitHub,
       Google({
         authorization: {

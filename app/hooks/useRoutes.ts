@@ -21,6 +21,7 @@ export const useRoutes = () => {
         active:
           pathname === "/courses" ||
           pathname === `/courses/${collectionId}` ||
+          pathname === "/courses/create" || 
           !!collectionId,
         admin: false,
       },
