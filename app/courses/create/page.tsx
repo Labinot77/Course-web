@@ -70,6 +70,7 @@ export default function EditCoursePage() {
     ],
   });
 
+
   const selectedEpisodeData = course.episodes.find(
     (ep) => ep.id === selectedEpisode
   );

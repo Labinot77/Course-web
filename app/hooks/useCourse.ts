@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getRequest } from "@/app/lib/api/Get";
 import { CourseProps } from "../types/types";
 
-
 export const useCourse = (apiUrl: string) => {
   const [course, setCourse] = useState<CourseProps | null>(null);
   const [loading, setLoading] = useState(true);

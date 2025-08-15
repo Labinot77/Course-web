@@ -8,6 +8,11 @@ import { prisma } from "@/prisma";
 declare module "next-auth" {
   interface Session {
     user: {
+      id: string;
+      name: string;
+      email: string;
+      emailverified: Date | null;
+      image: String | null;
       isAdmin?: boolean;
       [key: string]: any;
     };
