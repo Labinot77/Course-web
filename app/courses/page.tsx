@@ -35,9 +35,8 @@ const Page = () => {
                   image: course.createdBy.image,
                 }}
                 imageUrl={course.imageUrl || ""}
-                duration={course.duration}
                 category={course.category}
-                price={course.price}
+                // price={course.price}
               />
             ))
           )}

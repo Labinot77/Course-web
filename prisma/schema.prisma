@@ -27,9 +27,9 @@ model Course {
   title       String
   description String
   imageUrl    String
-  isFree      Boolean
   category    String
-  price       Float
+  // isFree      Boolean
+  // price       Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   episodes    Episode[] @relation("CourseEpisodes")

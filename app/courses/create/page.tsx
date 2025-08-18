@@ -4,16 +4,10 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { PenSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, useFieldArray } from "react-hook-form";
+import { z } from "zod";
 import {
   Select,
   SelectContent,
@@ -21,201 +15,185 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import EpisodeListManagement from "./components/EpisodeListManagement";
+import EditFieldModal from "./components/EditFieldModal";
 import { CourseProps } from "@/app/types/types";
 import { Categories, Price } from "@/app/constants/filter";
-import EpisodeListManagement from "./components/EpisodeListManagement";
-import { UseUser } from "@/app/hooks/useUser";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const courseFormSchema = z.object({
+  title: z.string().min(2),
+  description: z.string().min(10),
+  imgUrl: z.string().url(),
+  isFree: z.boolean(),
+  category: z.string().min(2),
+  price: z.number().min(0),
+  episodes: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string().min(2),
+      description: z.string(),
+      videoUrl: z.string().url(),
+      duration: z.number().min(0),
+      createdAt: z.string().optional(), // ← optional for form
+      updatedAt: z.string().optional(), // ← optional for form
+    })
+  ),
+});
+
+type CourseFormValues = z.infer<typeof courseFormSchema>;
 
 export default function EditCoursePage() {
-  // Restrict the user from getting on, and how them a modal to sign in
-  const { user, status} = UseUser()
   const [selectedEpisode, setSelectedEpisode] = useState<string | null>(null);
-  const [course, setCourse] = useState<CourseProps>({
-    id: "1",
-    title: "Master React 2025",
-    description:
-      "A full React course with projects, hooks, and modern patterns.",
-    imgUrl: "/react-course.jpg",
-    isFree: false,
-    category: "Programming",
-    price: 49.99,
-    updatedAt: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    createdBy: {
-      id: "u1",
-      name: "John Doe",
-      email: "john@example.com",
-      image: "/avatar.jpg",
+
+  const form = useForm<CourseFormValues>({
+    resolver: zodResolver(courseFormSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      imgUrl: "",
+      isFree: true,
+      category: "",
+      price: 0,
+      episodes: [],
     },
-    savedBy: [],
-    episodes: [
-      {
-        id: "e1",
-        title: "Introduction",
-        description: "Course overview and setup instructions.",
-        videoUrl: "https://example.com/video1.mp4",
-        duration: 600,
-        updatedAt: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "e2",
-        title: "React Basics",
-        description: "Learn the fundamentals of React components and JSX.",
-        videoUrl: "https://example.com/video2.mp4",
-        duration: 1200,
-        updatedAt: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-      },
-    ],
   });
 
+  const {
+    fields: episodes,
+    append,
+    move,
+    update,
+  } = useFieldArray({
+    control: form.control,
+    name: "episodes",
+    keyName: "key",
+  });
 
-  const selectedEpisodeData = course.episodes.find(
-    (ep) => ep.id === selectedEpisode
-  );
+  const selectedEpisodeData = episodes.find((ep) => ep.id === selectedEpisode);
 
-  /** Modal form for editing a field */
-  const EditFieldModal = ({
-    field,
-    label,
-    type = "text",
-  }: {
-    field: keyof CourseProps;
-    label: string;
-    type?: "text" | "textarea" | "number";
-  }) => {
-    const form = useForm({
-      defaultValues: {
-        value: course[field] as any,
-      },
-    });
-
-    const onSubmit = (data: any) => {
-      setCourse((prev) => ({
-        ...prev,
-        [field]: type === "number" ? parseFloat(data.value) : data.value,
-      }));
-    };
-
-    return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button size="icon" variant="ghost">
-            <PenSquare className="h-4 w-4" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit {label}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {type === "textarea" ? (
-              <Textarea {...form.register("value")} />
-            ) : (
-              <Input type={type} {...form.register("value")} />
-            )}
-            <Button type="submit">Save</Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-    );
+  const handleReorderEpisodes = (episodes: CourseFormValues["episodes"]) => {
+    form.setValue("episodes", episodes); // update react-hook-form state
   };
 
+  const handleAddEpisode = (episode: CourseProps["episodes"][number]) => {
+    append(episode);
+  };
+
+  const onSubmit = (data: CourseFormValues) => {
+    console.log("Course submitted:", data);
+  };
+
+  // Add description and video upload func to episode modal, seperate everything into diff components
+
   return (
-    <main className="space-y-8 p-4">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-4">
       <section className="grid grid-cols-3 gap-7">
-        <div className="p-4 bg-primary-foreground space-y-2">
+        <div className="space-y-1">
           {/* Title */}
-          <div className="flex justify-between items-center">
-            <h1 className="font-semibold">Course Title</h1>
-            <EditFieldModal field="title" label="Course Title" />
-          </div>
-          <Input disabled value={course.title} />
-
-          {/* Category (Select) */}
-          <div className="flex justify-between items-center mt-2">
-            <h1 className="font-semibold">Category</h1>
-          </div>
-          <Select
-            value={course.category}
-            onValueChange={(val) =>
-              setCourse((prev) => ({ ...prev, category: val }))
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              {Categories.map((category) => (
-                <SelectItem key={category.value} value={category.value}>
-                  {category.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Price & Free Toggle */}
-          <div className="flex justify-between items-center mt-2">
-            <h1 className="font-semibold">Price</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <Select
-              value={String(course.isFree)}
-              onValueChange={(val) =>
-                setCourse((prev) => ({ ...prev, isFree: val === "true" }))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Free" />
-              </SelectTrigger>
-              <SelectContent>
-                {Price.map((price) => (
-                  <SelectItem
-                    key={String(price.value)}
-                    value={String(price.value)}
-                  >
-                    {price.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {!course.isFree && (
+          <div className="bg-primary-foreground">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle>Course Title</CardTitle>
+                <EditFieldModal
+                  label="Course Title"
+                  field="title"
+                  form={form}
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
               <Input
-                type="number"
-                min="0"
-                step="0.01"
-                value={course.price}
-                onChange={(e) =>
-                  setCourse((prev) => ({
-                    ...prev,
-                    price: parseFloat(e.target.value),
-                  }))
-                }
+                className="w-full -mt-3"
+                disabled
+                {...form.register("title")}
               />
-            )}
+            </CardContent>
           </div>
 
-          {/* Image URL */}
-          <div className="flex justify-between items-center mt-2">
-            <h1 className="font-semibold">Image URL</h1>
-            <EditFieldModal field="imgUrl" label="Image URL" />
+          <div className="bg-primary-foreground">
+            <CardHeader>
+              <CardTitle>Category</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Select
+                value={form.getValues("category")}
+                onValueChange={(val) => form.setValue("category", val)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Categories.map((c) => (
+                    <SelectItem key={c.value} value={c.value}>
+                      {c.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </CardContent>
           </div>
-          <Input disabled value={course.imgUrl} />
+
+          {/* Price */}
+          <div className="bg-primary-foreground">
+            <CardHeader>
+              Price
+              <CardDescription>Amount is in credits</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Input
+                className="w-full"
+                type="number"
+                min={0}
+                step={1.0}
+                {...form.register("price", { valueAsNumber: true })}
+              />
+            </CardContent>
+            {/* <h1 className="font-semibold mb-1">Price</h1> */}
+          </div>
+
+          <div className="bg-primary-foreground">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle>Image URL</CardTitle>
+                <EditFieldModal label="Image URL" field="imgUrl" form={form} />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Input
+                className="w-full -mt-3"
+                disabled
+                {...form.register("imgUrl")}
+              />
+            </CardContent>
+          </div>
         </div>
 
-        {/* Description */}
-        <div className="p-4 bg-primary-foreground space-y-2 col-span-2">
-          <div className="flex justify-between items-center">
-            <h1 className="font-semibold">Course Description</h1>
-            <EditFieldModal
-              field="description"
-              label="Course Description"
-              type="textarea"
+        <div className="bg-primary-foreground p-4 col-span-2 space-y-2">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Course Description</CardTitle>
+              <EditFieldModal
+                label="Course Description"
+                field="description"
+                type="textarea"
+                form={form}
+              />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              className="resize-none -mt-3"
+              rows={5}
+              disabled
+              {...form.register("description")}
             />
-          </div>
-          <Textarea disabled value={course.description} />
+          </CardContent>
         </div>
       </section>
 
@@ -223,20 +201,13 @@ export default function EditCoursePage() {
 
       {/* Episodes */}
       <div className="h-[70vh] flex gap-8 overflow-hidden">
-        {/* Doesnt scroll as indedned */}
         <div className="flex-shrink-0 w-80 overflow-y-auto">
           <EpisodeListManagement
-            course={course}
+            course={{ ...form.getValues(), episodes }}
             onSelectEpisode={setSelectedEpisode}
-            onReorderEpisodes={(eps) =>
-              setCourse((prev) => ({ ...prev, episodes: eps }))
-            }
-            onAddEpisode={(newEpisode) =>
-              setCourse((prev) => ({
-                ...prev,
-                episodes: [...prev.episodes, newEpisode],
-              }))
-            }
+            onReorderEpisodes={handleReorderEpisodes}
+            onAddEpisode={handleAddEpisode}
+            onSave={form.handleSubmit(onSubmit)}
           />
         </div>
 
@@ -254,6 +225,7 @@ export default function EditCoursePage() {
           )}
         </div>
       </div>
-    </main>
+
+    </form>
   );
 }

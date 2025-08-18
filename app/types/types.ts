@@ -2,10 +2,10 @@ export interface CourseProps {
   id: string;
   title: string;
   description: string;
-  imgUrl: string;
-  isFree: boolean;
+  imageUrl: string;
   category: string;
-  price: number;
+  // isFree: boolean;
+  // price?: number;
   updatedAt: string;
   createdAt: string;
   createdBy: {
@@ -26,7 +26,7 @@ export interface CourseProps {
     description: string;
     videoUrl: string;
     duration: number;
-    updatedAt: string;
-    createdAt: string;
+    updatedAt?: string;
+    createdAt?: string;
   }[];
 }

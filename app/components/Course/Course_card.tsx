@@ -10,9 +10,8 @@ import { useRouter } from "next/navigation";
 interface Course {
   id: string;
   title: string;
-  duration?: string;
   category: string;
-  price?: number;
+  // price?: number;
   imageUrl?: string;
   episodes?: number;
   userData: {
@@ -26,10 +25,9 @@ const Course_card = ({
   id,
   title,
   userData,
-  duration,
   category,
   episodes,
-  price,
+  // price,
   imageUrl,
 }: Course) => {
   const router = useRouter();
@@ -45,8 +43,8 @@ const Course_card = ({
       await postRequest("/api/courses/user/save", {
         courseId: id,
         title,
-        duration,
-        price,
+        // duration,
+        // price,
         imageUrl,
       });
       setSaved(true);
@@ -95,7 +93,7 @@ const Course_card = ({
               <li>1 Day ago</li>
             </ul>
 
-            <small className="mr-4 bg-black text-secondary-foreground opacity-35 px-1 p-0.5 hover:shadow-lg hover:rounded-none transition-all">{price === 0 ? "Free" : price + " USD" }</small>
+            {/* <small className="mr-4 bg-black text-secondary-foreground opacity-35 px-1 p-0.5 hover:shadow-lg hover:rounded-none transition-all">{price === 0 ? "Free" : price + " USD" }</small> */}
           </div>
         </div>
       </div>

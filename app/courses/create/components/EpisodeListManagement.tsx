@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Plus } from "lucide-react";
+import { GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
 import { CourseProps } from "@/app/types/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,12 +27,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { DefaultButton } from "@/app/components/buttons/Buttons";
+import SortableEpisodeItem from "./SortableEpisodeItem";
 
 type Props = {
   course: CourseProps;
   onSelectEpisode: (id: string) => void;
   onReorderEpisodes: (episodes: CourseProps["episodes"]) => void;
   onAddEpisode: (episode: CourseProps["episodes"][number]) => void;
+  onSave: () => void;
 };
 
 export default function EpisodeListManagement({
@@ -40,6 +42,7 @@ export default function EpisodeListManagement({
   onSelectEpisode,
   onReorderEpisodes,
   onAddEpisode,
+  onSave
 }: Props) {
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -55,68 +58,93 @@ export default function EpisodeListManagement({
 
   return (
     <div className="flex flex-col h-full justify-between ">
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        items={course.episodes.map((ep) => ep.id)}
-        strategy={verticalListSortingStrategy}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
       >
-        <div className="space-y-2">
-          {course.episodes.map((episode) => (
-            <SortableEpisodeItem
-              key={episode.id}
-              episode={episode}
-              onClick={() => onSelectEpisode(episode.id)}
-            />
-          ))}
+        <SortableContext
+          items={course.episodes.map((ep) => ep.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="space-y-2">
+            {course.episodes.map((episode) => (
+              <SortableEpisodeItem
+                key={episode.id}
+                episode={episode}
+                onClick={() => onSelectEpisode(episode.id)}
+              />
+            ))}
 
-          {/* Create Episode Button */}
-          <CreateEpisodeButton onAddEpisode={onAddEpisode} />
-        </div>
-      </SortableContext>
-    </DndContext>
+            {/* Create Episode Button */}
+            <CreateEpisodeButton onAddEpisode={onAddEpisode} />
+          </div>
+        </SortableContext>
+      </DndContext>
 
-        <DefaultButton>
-          Save Course
-        </DefaultButton>
-    </div>
-
-    
-  );
-}
-
-function SortableEpisodeItem({
-  episode,
-  onClick,
-}: {
-  episode: CourseProps["episodes"][number];
-  onClick: () => void;
-}) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: episode.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="p-3 bg-primary-foreground rounded shadow flex items-center gap-2 cursor-pointer"
-      onClick={onClick}
-    >
-      <div {...attributes} {...listeners} className="cursor-grab">
-        <GripVertical className="w-4 h-4 text-gray-500" />
-      </div>
-      <span className="flex-1">{episode.title}</span>
+      <DefaultButton onClick={onSave}>Save Course</DefaultButton>
     </div>
   );
 }
+
+// function SortableEpisodeItem({
+//   episode,
+//   onClick,
+// }: {
+//   episode: CourseProps["episodes"][number];
+//   onClick: () => void;
+// }) {
+//   const { attributes, listeners, setNodeRef, transform, transition } =
+//     useSortable({ id: episode.id });
+
+//   const style = {
+//     transform: CSS.Transform.toString(transform),
+//     transition,
+//   };
+
+//   return (
+//     <div
+//       ref={setNodeRef}
+//       style={style}
+//       className="p-3 bg-primary-foreground rounded shadow flex items-center gap-2 cursor-pointer"
+//       onClick={onClick}
+//     >
+//       {/* Drag handle */}
+//       <div {...attributes} {...listeners} className="cursor-grab">
+//         <GripVertical className="w-4 h-4 text-gray-500" />
+//       </div>
+
+//       {/* Episode title */}
+//       <span className="flex-1">{episode.title}</span>
+
+//       {/* Actions */}
+//       <div className="flex items-center gap-2">
+//         <DefaultButton 
+//           onClick={(e) => {
+//             e.stopPropagation();
+//             // onEdit(episode.id);
+//           }}
+//           variant="ghost"
+//           isReactive
+//           className="px-2 py-1"
+//         >
+//           <Pencil className="w-4 h-4 text-blue-400" />
+//         </DefaultButton>
+//         <DefaultButton
+//         variant="ghost"
+//           onClick={(e) => {
+//             e.stopPropagation();
+//             // onDelete(episode.id);
+//           }}
+//           isReactive
+//           className="px-2 py-1"
+//         >
+//           <Trash2 className="w-4 h-4 text-red-400" />
+//         </DefaultButton>
+//       </div>
+//     </div>
+//   );
+// }
 
 function CreateEpisodeButton({
   onAddEpisode,
@@ -131,8 +159,8 @@ function CreateEpisodeButton({
     onAddEpisode({
       id: `ep-${Date.now()}`,
       title,
-      description: "",
-      videoUrl: "",
+      description: "fdsfdfdssflifdshsfdh",
+      videoUrl: "https://www.2smart.be/wp-content/uploads/2022/05/5702815.jpg",
       duration: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
